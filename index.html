@@ -13,7 +13,9 @@
 <div id="acceleration"></div>
 
 
+<canvas id="canvas" width="300" height="300">
 
+</canvas>
 
 
 
@@ -22,14 +24,15 @@
     "use strict";
 
 
-
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
 
 
     function stringVector(x, y, z) {
         x = Math.round(x * 100) / 100
         y = Math.round(y * 100) / 100
         z = Math.round(z * 100) / 100
-        return `x: ${x}, y: ${y}, z: ${z}`
+        return `x: ${x}, y: ${y}`
     }
 
     let acX = 0, acY = 0, acZ = 0;
@@ -38,8 +41,10 @@
     // In seconds
     const dt = 1 / 60
 
+    const startT = performance.now()
+
     setInterval(() => {
-        const ts = performance.now() / 1000
+        const ts = (performance.now() - startT) / 1000
         posX += (acX / 2) * (ts - dt) * (ts + dt)
         posY += (acY / 2) * (ts - dt) * (ts + dt)
         posZ += (acZ / 2) * (ts - dt) * (ts + dt)
@@ -53,6 +58,9 @@
     setInterval(()=> {
         positionDiv.innerText = `Position: ${stringVector(posX, posY, posZ)}`
         accelerationDiv.innerText = `Acceleration: ${stringVector(acX, acY, acZ)} (modulus = ${Math.sqrt(acX ** 2 + acY ** 2 + acZ ** 2).toFixed(2)})`
+        ctx.beginPath()
+        ctx.arc(posX, posY, 5, 0, 2 * Math.PI)
+        ctx.stroke()
     }, 200)
 
     function onDeviceMotion(event) {
