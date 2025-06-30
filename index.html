@@ -13,7 +13,7 @@
 <div id="acceleration"></div>
 
 
-<canvas id="canvas" width="300" height="300">
+<canvas id="canvas" width="500" height="500">
 
 </canvas>
 
@@ -58,8 +58,12 @@
     setInterval(()=> {
         positionDiv.innerText = `Position: ${stringVector(posX, posY, posZ)}`
         accelerationDiv.innerText = `Acceleration: ${stringVector(acX, acY, acZ)} (modulus = ${Math.sqrt(acX ** 2 + acY ** 2 + acZ ** 2).toFixed(2)})`
+
+
+        const cCenterW = canvas.width / 2
+        const cCenterH = canvas.height / 2
         ctx.beginPath()
-        ctx.arc(posX, posY, 5, 0, 2 * Math.PI)
+        ctx.arc(cCenterW + posX, cCenterH +posY, 2, 0, 2 * Math.PI)
         ctx.stroke()
     }, 200)
 
@@ -92,6 +96,7 @@
 
 <button onclick="startCapture()">start capture</button>
 
+<div>With canvas</div>
 
 
 </body>
