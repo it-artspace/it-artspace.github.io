@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
 </head>
+
 <body>
 
 
@@ -19,16 +21,7 @@
 
     "use strict";
 
-    function startCapture() {
-        if (
-            DeviceMotionEvent &&
-            typeof DeviceMotionEvent.requestPermission === "function"
-        ) {
-            DeviceMotionEvent.requestPermission();
-        } else {
-            alert("DeviceMotionEvent not supported");
-        }
-    }
+
 
     let acX = 0, acY = 0, acZ = 0;
     let posX = 0, posY = 0, posZ = 0;
@@ -41,6 +34,7 @@
         posX += (acX / 2) * (ts - dt) * (ts + dt)
         posY += (acY / 2) * (ts - dt) * (ts + dt)
         posZ += (acZ / 2) * (ts - dt) * (ts + dt)
+
     }, dt * 1000)
 
     // update divs every 200 ms
@@ -60,7 +54,20 @@
         acZ = z
     }
 
-    document.addEventListener("devicemotion", onDeviceMotion);
+    function startCapture() {
+        if (
+            DeviceMotionEvent &&
+            typeof DeviceMotionEvent.requestPermission === "function"
+        ) {
+            DeviceMotionEvent.requestPermission();
+
+           window.addEventListener("devicemotion", onDeviceMotion);
+        } else {
+            alert("DeviceMotionEvent not supported");
+        }
+    }
+
+
 
 
 
