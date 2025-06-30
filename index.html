@@ -87,7 +87,7 @@
         const r = Math.sqrt(posX ** 2 + posY ** 2)
         const maxR = Math.sqrt(cCenterW ** 2 + cCenterH ** 2)
 
-        const rTransformed = Math.log(r)
+        const rTransformed = Math.sqrt(r / maxR) * maxR
 
         const sine = posY / r
         const cosine = posX / r
@@ -118,14 +118,33 @@
     }
 
 
+    function fakePath() {
+        vX = 1
+        vY = 0
+
+        setTimeout(
+            () => {
+                vX = -2
+                vY = 10
+            },
+            3000
+        )
+        setInterval(
+            () => {
+                vX = 0
+                vY = 0
+            }, 5000
+        )
+    }
 
 
 
 </script>
 
 <button onclick="startCapture()">start capture</button>
+<button onclick="fakePath()">fakepath</button>
 
-<div>With canvas & logarithmic curve unscaled</div>
+<div>With canvas & Quadratic curve</div>
 
 
 </body>
