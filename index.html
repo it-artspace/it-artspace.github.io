@@ -23,6 +23,15 @@
 
 
 
+
+
+    function stringVector(x, y, z) {
+        x = Math.round(x * 100) / 100
+        y = Math.round(y * 100) / 100
+        z = Math.round(z * 100) / 100
+        return `x: ${x}, y: ${y}, z: ${z}`
+    }
+
     let acX = 0, acY = 0, acZ = 0;
     let posX = 0, posY = 0, posZ = 0;
 
@@ -30,7 +39,7 @@
     const dt = 1 / 60
 
     setInterval(() => {
-        const ts = performance.now() * 1000
+        const ts = performance.now() / 1000
         posX += (acX / 2) * (ts - dt) * (ts + dt)
         posY += (acY / 2) * (ts - dt) * (ts + dt)
         posZ += (acZ / 2) * (ts - dt) * (ts + dt)
@@ -42,8 +51,8 @@
     const positionDiv = document.getElementById("position")
     const accelerationDiv = document.getElementById("acceleration")
     setInterval(()=> {
-        positionDiv.innerText = `x: ${posX}, y: ${posY}, z: ${posZ}`
-        accelerationDiv.innerText = `x: ${acX}, y: ${acY}, z: ${acZ} (modulus = ${Math.sqrt(acX ** 2 + acY ** 2 + acZ ** 2)})`
+        positionDiv.innerText = `Position: ${stringVector(posX, posY, posZ)}`
+        accelerationDiv.innerText = `Acceleration: ${stringVector(acX, acY, acZ)} (modulus = ${Math.sqrt(acX ** 2 + acY ** 2 + acZ ** 2).toFixed(2)})`
     }, 200)
 
     function onDeviceMotion(event) {
@@ -60,8 +69,8 @@
             typeof DeviceMotionEvent.requestPermission === "function"
         ) {
             DeviceMotionEvent.requestPermission();
-
            window.addEventListener("devicemotion", onDeviceMotion);
+           console.log("started capturing")
         } else {
             alert("DeviceMotionEvent not supported");
         }
