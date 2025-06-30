@@ -11,6 +11,7 @@
 
 <div id="position"></div>
 <div id="acceleration"></div>
+<div id="velocity"></div>
 
 
 <canvas id="canvas" width="500" height="500">
@@ -42,25 +43,30 @@
     // In seconds
     const dt = 1 / 60
 
-    const startT = performance.now()
+    let startT = performance.now()
 
     setInterval(() => {
-        const ts = (performance.now() - startT) / 1000
-        vX = vX + acX * dt
-        vY = vY + acY * dt
-        vZ = vZ + acZ * dt
-        posX = posX + vX * dt
-        posY = posY + vY * dt
-        posZ = posZ + vZ * dt
+        const now = performance.now()
+        const ts = (now - startT) / 1000
+        posX = posX + vX * ts
+        posY = posY + vY * ts
+        posZ = posZ + vZ * ts
+        vX = vX + acX * ts
+        vY = vY + acY * ts
+        vZ = vZ + acZ * ts
+        startT = now
     }, dt * 1000)
 
     // update divs every 200 ms
 
     const positionDiv = document.getElementById("position")
     const accelerationDiv = document.getElementById("acceleration")
+    const velocityDiv = document.getElementById("velocity")
+
     setInterval(()=> {
         positionDiv.innerText = `Position: ${stringVector(posX, posY, posZ)}`
         accelerationDiv.innerText = `Acceleration: ${stringVector(acX, acY, acZ)} (modulus = ${Math.sqrt(acX ** 2 + acY ** 2 + acZ ** 2).toFixed(2)})`
+        velocityDiv.innerText = `Velocity: ${stringVector(vX, vY, vZ)} (modulus = ${Math.sqrt(vX ** 2 + vY ** 2 + vZ ** 2).toFixed(2)})`
 
 
         const cCenterW = canvas.width / 2
