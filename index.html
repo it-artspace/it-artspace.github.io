@@ -63,17 +63,37 @@
     const accelerationDiv = document.getElementById("acceleration")
     const velocityDiv = document.getElementById("velocity")
 
+    const cCenterW = canvas.width / 2
+    const cCenterH = canvas.height / 2
+    function drawPoint(x, y) {
+        ctx.beginPath()
+        ctx.arc(cCenterW + x, cCenterH +y, 2, 0, 2 * Math.PI)
+        ctx.stroke()
+    }
+
+
+
     setInterval(()=> {
         positionDiv.innerText = `Position: ${stringVector(posX, posY, posZ)}`
         accelerationDiv.innerText = `Acceleration: ${stringVector(acX, acY, acZ)} (modulus = ${Math.sqrt(acX ** 2 + acY ** 2 + acZ ** 2).toFixed(2)})`
         velocityDiv.innerText = `Velocity: ${stringVector(vX, vY, vZ)} (modulus = ${Math.sqrt(vX ** 2 + vY ** 2 + vZ ** 2).toFixed(2)})`
 
 
-        const cCenterW = canvas.width / 2
-        const cCenterH = canvas.height / 2
-        ctx.beginPath()
-        ctx.arc(cCenterW + posX, cCenterH +posY, 2, 0, 2 * Math.PI)
-        ctx.stroke()
+
+        if (Math.abs(posX) < 0.01 && Math.abs(posY) < 0.01) {
+            drawPoint(0, 0)
+            return
+        }
+        const r = Math.sqrt(posX ** 2 + posY ** 2)
+        const maxR = Math.sqrt(cCenterW ** 2 + cCenterH ** 2)
+
+        const rTransformed = maxR * (1 - 1/ r)
+
+        const sine = posY / r
+        const cosine = posX / r
+
+        drawPoint(sine * rTransformed, cosine * rTransformed)
+
     }, 200)
 
     function onDeviceMotion(event) {
