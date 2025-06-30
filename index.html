@@ -87,7 +87,7 @@
         const r = Math.sqrt(posX ** 2 + posY ** 2)
         const maxR = Math.sqrt(cCenterW ** 2 + cCenterH ** 2)
 
-        const rTransformed = Math.log(r) / Math.log(maxR) * maxR
+        const rTransformed = Math.log(r)
 
         const sine = posY / r
         const cosine = posX / r
@@ -125,7 +125,7 @@
 
 <button onclick="startCapture()">start capture</button>
 
-<div>With canvas & logarithmic curve</div>
+<div>With canvas & logarithmic curve unscaled</div>
 
 
 </body>
