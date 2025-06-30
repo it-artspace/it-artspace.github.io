@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<div id="position"></div>
+<div id="acceleration"></div>
+
+
+
+
+
+
+<script>
+
+    function startCapture() {
+        if (
+            DeviceMotionEvent &&
+            typeof DeviceMotionEvent.requestPermission === "function"
+        ) {
+            DeviceMotionEvent.requestPermission();
+        } else {
+            alert("DeviceMotionEvent not supported");
+        }
+    }
+
+    let acX = 0, acY = 0, acZ = 0;
+    let posX = 0, posY = 0, posZ = 0;
+
+    // In seconds
+    const dt = 1 / 60
+
+    setInterval(() => {
+        const ts = performance.now() * 1000
+        posX += (acX / 2) * (ts - dt) * (ts + dt)
+        posY += (acY / 2) * (ts - dt) * (ts + dt)
+        posZ += (acZ / 2) * (ts - dt) * (ts + dt)
+    }, dt * 1000)
+
+    // update divs every 200 ms
+
+    const positionDiv = document.getElementById("position")
+    const accelerationDiv = document.getElementById("acceleration")
+    setInterval(()=> {
+        positionDiv.innerText = `x: ${posX}, y: ${posY}, z: ${posZ}`
+        accelerationDiv.innerText = `x: ${acX}, y: ${acY}, z: ${acZ} (modulus = ${Math.sqrt(acX ** 2 + acY ** 2 + acZ ** 2)})`
+    }, 200)
+
+    function onDeviceMotion(event) {
+        const {acceleration: {x, y, z}} = event
+        acX = x
+        acY = y
+        acZ = z
+    }
+
+    document.addEventListener("devicemotion", onDeviceMotion);
+
+
+
+</script>
+
+<button onclick="startCapture()">start capture</button>
+
+
+
+</body>
+</html>
