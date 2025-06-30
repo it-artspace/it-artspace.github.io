@@ -17,6 +17,8 @@
 
 <script>
 
+    "use strict";
+
     function startCapture() {
         if (
             DeviceMotionEvent &&
@@ -51,6 +53,7 @@
     }, 200)
 
     function onDeviceMotion(event) {
+        console.log("capture event", event)
         const {acceleration: {x, y, z}} = event
         acX = x
         acY = y
